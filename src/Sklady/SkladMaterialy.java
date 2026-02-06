@@ -12,6 +12,7 @@ public class SkladMaterialy{
 
     public void odectiMaterialHlava() {
         plast -= 10;
+        vlasy -= 2;
     }
 
     public void odectiMaterialTelo() {
