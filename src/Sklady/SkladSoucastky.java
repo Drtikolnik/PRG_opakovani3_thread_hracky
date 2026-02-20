@@ -21,6 +21,7 @@ public class SkladSoucastky{
         }
 
         hracka++;
+        System.out.println(Thread.currentThread().getName()+ " sestavil hračku, CELKEM HRAČČEK: " +hracka);
     }
 
     public void pridejHlava() {
