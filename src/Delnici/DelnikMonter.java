@@ -3,25 +3,24 @@ package Delnici;
 import Sklady.SkladMaterialy;
 import Sklady.SkladSoucastky;
 
-public class DelnikVyrobceNohy extends Delnik implements Runnable {
+public class DelnikMonter extends Delnik implements Runnable {
 
-    public DelnikVyrobceNohy(SkladMaterialy materialy, SkladSoucastky soucastky) {
+    public DelnikMonter(SkladMaterialy materialy, SkladSoucastky soucastky) {
         super(materialy, soucastky);
-        this.delnikID = 4;
-        this.jmeno = "Výrobce Nohou";
+        this.delnikID = 100;
+        this.jmeno = "Montér hraček";
     }
 
     @Override
     public synchronized void run() {
         try{
             for(;;) {
-                materialy.odectiMaterial(30, 0);
-                soucastky.pridejNohy();
+                materialy.odectiMaterial(10, 2);
+                soucastky.pridejHlava();
 
                 Thread.sleep(100);
             }
         }catch(InterruptedException e){}
-
 
 
 

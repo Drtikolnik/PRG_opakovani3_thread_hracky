@@ -4,7 +4,6 @@ import Sklady.SkladMaterialy;
 import Sklady.SkladSoucastky;
 
 public class DelnikVyrobceRuce extends Delnik implements Runnable {
-    boolean plastRuceDostatek = true;
 
     public DelnikVyrobceRuce(SkladMaterialy materialy, SkladSoucastky soucastky) {
         super(materialy, soucastky);
@@ -14,17 +13,16 @@ public class DelnikVyrobceRuce extends Delnik implements Runnable {
 
     @Override
     public synchronized void run() {
-
-        while(plastRuceDostatek) {
-            if(materialy.getPlast()>=20){
-                materialy.odectiMaterialRuce();
+        try{
+            for(;;) {
+                materialy.odectiMaterial(20, 0);
                 soucastky.pridejRuce();
-            }else{
-                IO.println("Nedostatek materiálů na skladě");
-                plastRuceDostatek = false;
-            }
 
-        }
+                Thread.sleep(100);
+            }
+        }catch(InterruptedException e){}
+
+
 
 
 

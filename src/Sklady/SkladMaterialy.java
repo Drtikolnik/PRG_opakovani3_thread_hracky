@@ -8,23 +8,26 @@ public class SkladMaterialy{
 
     public SkladMaterialy(){}
 
+    public synchronized void doplnMaterial(int novyPlast, int noveVlasy){
+       plast += novyPlast;
+       vlasy += noveVlasy;
 
-
-    public void odectiMaterialHlava() {
-        plast -= 10;
-        vlasy -= 2;
+       IO.println("Skladník doručil materiály - Plast: " + plast + " Vlasy: " + vlasy);
+       notifyAll();
     }
 
-    public void odectiMaterialTelo() {
-        plast -= 50;
-    }
+    public synchronized void odectiMaterial(int potrebaPlast, int potrebaVlasy) {
+        while (plast < potrebaPlast || vlasy < potrebaVlasy) {
+            System.out.println(Thread.currentThread().getName()+ " čeká na materiál");
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
-    public void odectiMaterialRuce() {
-        plast -= 20;
-    }
-
-    public void odectiMaterialNohy() {
-        plast -= 30;
+        plast -= potrebaPlast;
+        vlasy -= potrebaVlasy;
     }
 
 
