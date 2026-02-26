@@ -15,8 +15,7 @@ public class DelnikMonter extends Delnik implements Runnable {
     public synchronized void run() {
         try{
             for(;;) {
-                materialy.odectiMaterial(10, 2);
-                soucastky.pridejHlava();
+                soucastky.sestavHracku();
 
                 Thread.sleep(100);
             }

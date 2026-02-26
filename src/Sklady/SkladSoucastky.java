@@ -7,6 +7,7 @@ public class SkladSoucastky{
     private int ruce;
     private int nohy;
     private int hracka;
+    private int pozadavek;
 
     public SkladSoucastky(){}
 
@@ -20,28 +21,47 @@ public class SkladSoucastky{
             }
         }
 
+        hlava--;
+        telo--;
+        ruce--;
+        nohy--;
         hracka++;
-        System.out.println(Thread.currentThread().getName()+ " sestavil hračku, CELKEM HRAČČEK: " +hracka);
+        System.out.println(Thread.currentThread().getName()+ " sestavil hračku, CELKEM HRAČEK: " +hracka);
+
+        if(hracka == pozadavek){
+            System.out.println("Výroba dokončena");
+            IO.println("Počet Hlav:" +getHlava());
+            IO.println("Počet Těl:" +getTelo());
+            IO.println("Počet Ruce:" +getRuce());
+            IO.println("Počet Nohy:" +getNohy());
+            IO.println("počet hraček: " +getHracka());
+            System.exit(0);
+        }
+
     }
 
-    public void pridejHlava() {
+    public synchronized void pridejHlava() {
         hlava++;
         System.out.println(Thread.currentThread().getName()+ " vyrobil hlavu, CELKEM HLAV: " +hlava);
+        notifyAll();
     }
 
-    public void pridejTelo() {
+    public synchronized void pridejTelo() {
         telo++;
         System.out.println(Thread.currentThread().getName()+ " vyrobil tělo, CELKEM TĚL: " +telo);
+        notifyAll();
     }
 
-    public void pridejRuce() {
+    public synchronized void pridejRuce() {
         ruce++;
         System.out.println(Thread.currentThread().getName()+ " vyrobil ruce, CELKEM RUK: " +ruce);
+        notifyAll();
     }
 
-    public void pridejNohy() {
+    public synchronized void pridejNohy() {
         nohy++;
         System.out.println(Thread.currentThread().getName()+ " vyrobil nohy, CELKEM NOHOU: " +nohy);
+        notifyAll();
     }
 
 
@@ -59,6 +79,18 @@ public class SkladSoucastky{
 
     public int getNohy() {
         return nohy;
+    }
+
+    public int getHracka() {
+        return hracka;
+    }
+
+    public int getPozadavek() {
+        return pozadavek;
+    }
+
+    public void setPozadavek(int pozadavek) {
+        this.pozadavek = pozadavek;
     }
 }
 
