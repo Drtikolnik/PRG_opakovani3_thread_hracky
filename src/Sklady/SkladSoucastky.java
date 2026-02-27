@@ -8,6 +8,9 @@ public class SkladSoucastky{
     private int nohy;
     private int hracka;
     private int pozadavek;
+    private int krabiceSHrackou;
+
+    private boolean dokoncitVyrobu = false;
 
     public SkladSoucastky(){}
 
@@ -28,17 +31,50 @@ public class SkladSoucastky{
         hracka++;
         System.out.println(Thread.currentThread().getName()+ " sestavil hračku, CELKEM HRAČEK: " +hracka);
 
-        if(hracka == pozadavek){
-            System.out.println("Výroba dokončena");
+        zkontrolujHracku();
+        vypisAZastavVyrobu();
+        notifyAll();
+    }
+
+    public synchronized void zkontrolujHracku(){
+        System.out.println("Hračka prošla kontrolou");
+    }
+
+    public synchronized void zabalHracku(){
+        while(hracka != 0){
+            System.out.println("Montér " +Thread.currentThread().getName()+ " čeká na hračku");
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        hracka--;
+        krabiceSHrackou++;
+        System.out.println(Thread.currentThread().getName()+ " zabalil hračku, CELKEM ZABALENÝCH KRABIC: " +krabiceSHrackou);
+        notifyAll();
+    }
+
+    public synchronized void vypisAZastavVyrobu(){
+        if(krabiceSHrackou == pozadavek){
+            dokoncitVyrobu = true;
+            IO.println("");
+            IO.println("--------------------------------");
+            IO.println("");
+            IO.println("Výroba dokončena");
             IO.println("Počet Hlav:" +getHlava());
             IO.println("Počet Těl:" +getTelo());
             IO.println("Počet Ruce:" +getRuce());
             IO.println("Počet Nohy:" +getNohy());
-            IO.println("počet hraček: " +getHracka());
+            IO.println("Počet hraček: " +getHracka());
+            IO.println("Počet hraček zablených v krabici: " +getKrabiceSHrackou());
+            IO.println("");
+
             System.exit(0);
         }
-
     }
+
+
 
     public synchronized void pridejHlava() {
         hlava++;
@@ -75,6 +111,14 @@ public class SkladSoucastky{
 
     public int getRuce() {
         return ruce;
+    }
+
+    public boolean isDokoncitVyrobu() {
+        return dokoncitVyrobu;
+    }
+
+    public int getKrabiceSHrackou() {
+        return krabiceSHrackou;
     }
 
     public int getNohy() {

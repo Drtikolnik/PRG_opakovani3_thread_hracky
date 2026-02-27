@@ -20,13 +20,18 @@ public class DelnikSkladnik extends Delnik implements Runnable {
 
                 int randomPlast = (int)(Math.random() * 1000) + 1;
                 int randomVlasy = (int)(Math.random() * 100) + 1;
+                int randomKarton = (int)(Math.random() * 100) + 1;
 
-                materialy.doplnMaterial(randomPlast, randomVlasy);
+                materialy.doplnMaterial(randomPlast, randomVlasy, randomKarton);
             }
         }catch(InterruptedException e){}
 
 
 
 
+    }
+
+    public String getJmeno() {
+        return jmeno;
     }
 }

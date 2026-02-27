@@ -4,20 +4,22 @@ public class SkladMaterialy{
 
     private int plast = 10000;
     private int vlasy = 1000;
+    private int karton = 600;
 
 
     public SkladMaterialy(){}
 
-    public synchronized void doplnMaterial(int novyPlast, int noveVlasy){
+    public synchronized void doplnMaterial(int novyPlast, int noveVlasy, int novyKarton){
        plast += novyPlast;
        vlasy += noveVlasy;
+       karton += novyKarton;
 
-       IO.println("Skladník doručil materiály - Plast: " + plast + " Vlasy: " + vlasy);
+       IO.println("Skladník doručil materiály - Plast: " + plast + " Vlasy: " + vlasy + " Karton: " + karton);
        notifyAll();
     }
 
-    public synchronized void odectiMaterial(int potrebaPlast, int potrebaVlasy) {
-        while (plast < potrebaPlast || vlasy < potrebaVlasy) {
+    public synchronized void odectiMaterial(int potrebaPlast, int potrebaVlasy, int potrebaKarton) {
+        while (plast < potrebaPlast || vlasy < potrebaVlasy || karton < potrebaKarton) {
             System.out.println(Thread.currentThread().getName()+ " čeká na materiál");
             try {
                 wait();
@@ -28,6 +30,7 @@ public class SkladMaterialy{
 
         plast -= potrebaPlast;
         vlasy -= potrebaVlasy;
+        karton -= potrebaKarton;
     }
 
 
@@ -38,4 +41,6 @@ public class SkladMaterialy{
     public int getVlasy() {
         return vlasy;
     }
+
+    public int getKarton() {return karton;}
 }

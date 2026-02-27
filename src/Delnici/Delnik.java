@@ -14,4 +14,5 @@ public abstract class Delnik{
         this.materialy = materialy;
         this.soucastky = soucastky;
     }
+
 }

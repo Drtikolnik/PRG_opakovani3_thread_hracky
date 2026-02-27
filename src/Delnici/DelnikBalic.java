@@ -3,13 +3,14 @@ package Delnici;
 import Sklady.SkladMaterialy;
 import Sklady.SkladSoucastky;
 
-public class DelnikVyrobceRuce extends Delnik implements Runnable {
+public class DelnikBalic extends Delnik implements Runnable {
     private int vyrobenoVeci = 0;
 
-    public DelnikVyrobceRuce(SkladMaterialy materialy, SkladSoucastky soucastky) {
+
+    public DelnikBalic(SkladMaterialy materialy, SkladSoucastky soucastky) {
         super(materialy, soucastky);
-        this.delnikID = 3;
-        this.jmeno = "Výrobce Rukou";
+        this.delnikID = 100;
+        this.jmeno = "Balič";
     }
 
     @Override
@@ -17,8 +18,8 @@ public class DelnikVyrobceRuce extends Delnik implements Runnable {
         try{
             for(;;) {
                 Thread.sleep(1000);
-                materialy.odectiMaterial(20, 0, 0);
-                soucastky.pridejRuce();
+                materialy.odectiMaterial(0,0,10);
+                soucastky.zabalHracku();
                 vyrobenoVeci++;
 
                 if(vyrobenoVeci%10 == 0){
@@ -26,16 +27,14 @@ public class DelnikVyrobceRuce extends Delnik implements Runnable {
                     Thread.sleep(3000);
                 }
 
-                Thread.sleep(1000); //dělník potřebuje trochu času na přípravu materiálů
-
-                if(soucastky.getRuce()==100 ){
-                    System.out.println("Dělník " +Thread.currentThread().getName()+ " na 10 sekund pozastaven kvůli vysokému počtu součástek.");
-                    Thread.sleep(10000);
-                }
+                Thread.sleep(1000); //dělník potřebuje trochu času na přípravu součástek
             }
         }catch(InterruptedException e){}
 
+
     }
+
+
     public int getVyrobenoVeci() {
         return vyrobenoVeci;
     }
